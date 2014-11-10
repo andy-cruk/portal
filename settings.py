@@ -84,6 +84,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+LOGIN_URL = 'portal_login'
+
+AUTHENTICATION_BACKENDS = ('portal.backends.EmailAuthBackend',)
+
 BOOTSTRAP3 = {
     'field_renderers': {
         'default': 'portal.renderers.PortalRenderer',

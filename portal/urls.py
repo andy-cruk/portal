@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, url
+from django.contrib.auth.views import logout
 from portal.views import hello_world, portal_home, portal_login
 
 urlpatterns = patterns(
@@ -7,6 +8,8 @@ urlpatterns = patterns(
 
     # rules that do not require user authntication
     url(r'^login$', portal_login, name='portal_login'),
+
+    url(r'^logout', logout, {'next_page': '/'}, name='portal_logout'),
 
     # Rule to catch empty urls
     url(r'', portal_home, name='portal_home'),

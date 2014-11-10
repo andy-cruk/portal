@@ -1,11 +1,52 @@
+{% load static %}
+{% load bootstrap3 %}
 
 <!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<html lang="en-us" id="extr-page">
+	<head>
+		<meta charset="utf-8">
+		<title>Citizen Science - CRUK</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/font-awesome.min.css' %}">
+		<link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/bootstrap.css' %}">
+        <script type="text/javascript" language="javascript" src="{% static 'js/jquery.js' %}"></script>
+        <script type="text/javascript" language="javascript" src="{% static 'js/bootstrap.js' %}"></script>
+	</head>
+	
+	<body style="padding-top: 70px;">
 
-</body>
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-main">
+                        <span class="sr-only">Toggle navigation</span>
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <a class="navbar-brand" href="{% url 'portal_home' %}">
+                        <img src="{% static 'img/logo.png' %}" alt="Citizen Science at CRUK" style="height:25px;"/>
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse" id="nav-main">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-user"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{% url 'portal_logout' %}">Sign out</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            {% bootstrap_messages %}
+        </div>
+
+        {% block body %}{% endblock %}
+	</body>
 </html>

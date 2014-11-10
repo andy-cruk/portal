@@ -1,0 +1,51 @@
+{% load static %}
+{% load bootstrap3 %}
+
+<!DOCTYPE html>
+<html lang="en-us" id="extr-page">
+	<head>
+		<meta charset="utf-8">
+		<title>Citizen Science - CRUK</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/font-awesome.min.css' %}">
+		<link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/bootstrap.css' %}">
+        {% bootstrap_javascript %}
+	</head>
+	
+	<body style="padding-top: 70px;">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{% url 'portal_home' %}">
+                        <img src="{% static 'img/logo.png' %}" alt="Citizen Science at CRUK" style="height:25px;"/>
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-xs-offset-0 col-md-offset-4">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Sign in</h3>
+                        </div>
+                        <form method="post" class="panel-body">
+                            {% csrf_token %}
+                            {% bootstrap_form form %}
+                            {% buttons %}
+                                <button type="submit" class="btn btn-primary">
+                                    Sign in
+                                </button>
+                            {% endbuttons %}
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+	</body>
+</html>
