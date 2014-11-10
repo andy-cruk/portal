@@ -3,3 +3,4 @@ env
 *.sqlite3
 local_settings.py
 .idea
+static_files
