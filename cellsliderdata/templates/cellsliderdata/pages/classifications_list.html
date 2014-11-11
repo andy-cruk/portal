@@ -1,0 +1,50 @@
+{% extends 'portal/base.html' %}
+
+{% block body %}
+    <div class="container">
+        <div class="page-header">
+            <h1>All Cell Slider Classification Data</h1>
+            <p>The table below shows all cell slider classification data received from CSA</p>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Image Name</th>
+                    <th>User Name</th>
+                    <th>Has Cancer Count</th>
+                    <th>Has Fiber Count</th>
+                    <th>Has Blood Cell Count</th>
+                    <th>Amount</th>
+                    <th>Proportion (%)</th>
+                    <th>Intensity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for classification in classifications %}
+                    <tr>
+                        <td>{{ classification.image_split.image.name }}</td>
+                        <td>{{ classification.citizen_scientist.user_name }}</td>
+                        <td>{{ classification.has_cancer_count }}</td>
+                        <td>{{ classification.has_fiber_count }}</td>
+                        <td>{{ classification.has_blood_cell_count }}</td>
+                        <td>{{ classification.amount|default_if_none:'' }}</td>
+                        <td>{{ classification.proportion|default_if_none:'' }}</td>
+                        <td>{{ classification.intensity|default_if_none:'' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <nav>
+            <ul class="pager">
+                {% if classifications.has_previous %}
+                    <a href="?page={{ classifications.previous_page_number }}">previous</a>
+                {% endif %}
+                <li>Page {{ classifications.number }} of {{ classifications.paginator.num_pages }}</li>
+                {% if classifications.has_next %}
+                    <a href="?page={{ classifications.next_page_number }}">next</a>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+{% endblock %}

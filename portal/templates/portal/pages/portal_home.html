@@ -3,12 +3,12 @@
 {% block body %}
 
     <div class="container">
-        <div class="row">
-            <div class="col-xs-12 col-xs-offset-0 col-sm-6 col-sm-offset-3">
-                <div class="well">
-                    <h2>We can put anything we like here!</h2>
-                </div>
-            </div>
+        <div class="list-group">
+            <a class="list-group-item" href="{% url 'cell_slider_data_classifications_list' %}">
+                <i class="fa fa-arrow-circle-o-right fa-4x pull-right"></i>
+                <h2 class="list-group-item-heading">Cell Slider Classification Data</h2>
+                <p>Import, view and query classification data sent from CSA</p>
+            </a>
         </div>
     </div>
 

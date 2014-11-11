@@ -16,9 +16,6 @@ BASE_DIR = os.path.dirname(__file__)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ybeh+lhmt7!^#$79rpgwwpg4fx%r(ww^%hc4j_q5u!t@anj3(9'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -38,6 +35,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'bootstrap3',
     'portal',
+    'cellsliderdata',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -95,4 +93,6 @@ BOOTSTRAP3 = {
         'default': 'portal.renderers.PortalRenderer',
     },
 }
+
+from local_settings import *
 
