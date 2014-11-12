@@ -11,7 +11,8 @@ api_key = sys.argv[1]
 file = sys.argv[2]
 url = sys.argv[3]
 limit = 0
-batch_size = 10
+batch_size = 1000
+started = datetime.now()
 
 try:
     limit = int(sys.argv[4])
@@ -39,5 +40,9 @@ with open(file, 'r') as obj:
             post_data = urllib.parse.urlencode({'api_key': api_key, 'data': json.dumps(classifications)}).encode('utf8')
             request = urllib.request.Request(url, post_data)
             response = urllib.request.urlopen(request)
-            print('%s: %s' % (datetime.now(), response.read()))
+            print('%s processed:  %s: %s' % ((x - 1), datetime.now(), response.read()))
             classifications = []
+td = datetime.now() - started
+hours, remainder = divmod(td.seconds, 3600)
+minutes, seconds = divmod(remainder, 60)
+print('finished in %s days, %s hours, %s minutes and %s seconds' % (td.days, hours, minutes, seconds))

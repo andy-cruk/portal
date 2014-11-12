@@ -2,21 +2,21 @@ from django.db import models
 
 
 class Image(models.Model):
-    name = models.CharField(max_length=1023, unique=True)
+    name = models.CharField(max_length=1023)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
 
 class ImageSplit(models.Model):
     image = models.ForeignKey(Image)
-    url = models.CharField(max_length=1023, unique=True)
-    split = models.IntegerField()
+    url = models.CharField(max_length=1023)
+    split = models.CharField(max_length=255)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
 
 class CitizenScientists(models.Model):
-    user_name = models.CharField(max_length=1023, unique=True)
+    user_name = models.CharField(max_length=1023)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
@@ -38,7 +38,7 @@ class Classification(models.Model):
     @classmethod
     def FromData(cls, data):
         image, created = Image.objects.get_or_create(name=data['image_name'])
-        image_split, created = ImageSplit.objects.get_or_create(image=image, url=data['image_url'], split=int(data['split_number']))
+        image_split, created = ImageSplit.objects.get_or_create(image=image, url=data['image_url'], split=data['split_number'])
         citizen_scientist, created = CitizenScientists.objects.get_or_create(user_name=data['user_name'])
         classification, created = Classification.objects.get_or_create(
             cell_slider_id=data['id'],
