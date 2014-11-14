@@ -1,0 +1,52 @@
+{% extends 'portal/base.html' %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block body %}
+
+    <div class="container">
+
+        <ol class="breadcrumb">
+            <li><a href="{% url 'portal_home' %}">Home</a></li>
+            <li><a href="{% url 'cell_slider_data_dashboard' %}">Cell Slider Dashboard</a></li>
+            <li class="active">Import Data</li>
+        </ol>
+
+        <div class="page-header">
+            <h1>Cell Slider Data Import</h1>
+            <p>Import data sent from the CSA</p>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-offset-0 col-sm-8 col-sm-offset-2">
+                <div class="alert alert-warning media">
+                    <i class="fa fa-warning fa-4x media-object pull-left"></i>
+                    <div class="media-body">
+                        <h4 class="media-heading">Caution</h4>
+                        <p>Uploading new data will replace the data currently held in the database.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <fieldset>
+                        <legend>Select the new zip file from CSA</legend>
+                        {% bootstrap_form form %}
+                        {% buttons %}
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-cloud-upload"></i> Upload
+                            </button>
+                        {% endbuttons %}
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+
+{% endblock %}

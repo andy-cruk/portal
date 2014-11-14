@@ -1,0 +1,47 @@
+{% extends 'portal/base.html' %}
+
+{% block body %}
+    <div class="container">
+
+        <ol class="breadcrumb">
+            <li><a href="{% url 'portal_home' %}">Home</a></li>
+            <li class="active">Cell Slider Dashboard</li>
+        </ol>
+
+        <div class="page-header">
+            <h1>Cell Slider Dashboard</h1>
+            <p>Import, view and query classification data sent from CSA</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="well">
+                    <h4>What you can do on this page.</h4>
+                    <p>TODO: Add some text here describing what can be done</p>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+
+                <div class="list-group">
+                    <a class="list-group-item" href="{% url 'cell_slider_data_classifications_import' %}">
+                        <i class="fa fa-arrow-circle-o-right fa-4x pull-right"></i>
+                        <i class="fa fa-cloud-upload fa-4x fa-fw pull-left text-primary"></i>
+                        <h3 class="list-group-item-heading">Import data</h3>
+                        <p>Import new classification data sent from the CSA.</p>
+                    </a>
+{#                    <a class="list-group-item" href="{% url 'cell_slider_data_classifications_list' %}">#}
+{#                        <i class="fa fa-arrow-circle-o-right fa-4x pull-right"></i>#}
+{#                        <i class="fa fa-table fa-4x fa-fw pull-left text-primary"></i>#}
+{#                        <h3 class="list-group-item-heading">List Classifications</h3>#}
+{#                        <p>See a list of all classifications in a table.</p>#}
+{#                    </a>#}
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

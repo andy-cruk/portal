@@ -9,8 +9,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 		<link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/font-awesome.min.css' %}">
 		<link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/bootstrap.css' %}">
+        {% block css %}{% endblock %}
         <script type="text/javascript" language="javascript" src="{% static 'js/jquery.js' %}"></script>
         <script type="text/javascript" language="javascript" src="{% static 'js/bootstrap.js' %}"></script>
+        {% block js %}{% endblock %}
 	</head>
 	
 	<body style="padding-top: 70px;">
