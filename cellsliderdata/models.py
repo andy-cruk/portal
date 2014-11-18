@@ -68,8 +68,8 @@ class CSADataFile(models.Model):
                 x += 1
                 if x == 0:  # headers
                     continue
-                if x > 100000:
-                    break
+                # if x > 100000:
+                #     break
                 if x % 100 == 0:
                     CSADataRow.objects.bulk_create(csa_data_rows)
                     csa_data_rows = []
