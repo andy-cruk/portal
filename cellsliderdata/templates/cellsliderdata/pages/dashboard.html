@@ -1,5 +1,28 @@
 {% extends 'portal/base.html' %}
 
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" language="JavaScript">
+        $(function(){
+            {% for name, analyzer in analyzers %}
+                $('#analysis-container').append('' +
+                        '<div id="{{ name|slugify }}">' +
+                        '   <div class="col-md-6">' +
+                        '       <h2 style="margin:50px 20px;">' +
+                        '           <i class="fa fa-spinner fa-spin"></i> ' +
+                        '           Loading: {{ name }} ' +
+                        '       </h2>' +
+                        '   </div>' +
+                        '</div>');
+                $.get('{% url "cell_slider_data_render_analysis_template" %}?analyzer={{ analyzer }}&name={{ name|slugify }}', function(data){
+                    $('#' + data.name).html(data.template);
+                    $.getScript('{% url "cell_slider_data_render_analysis_javascript" %}?analyzer=' + data.analyzer_name);
+                });
+            {% endfor %}
+        });
+    </script>
+{% endblock %}
+
 {% block body %}
     <div class="container">
 
@@ -13,35 +36,27 @@
             <p>Import, view and query classification data sent from CSA</p>
         </div>
 
-        <div class="row">
-            <div class="col-md-6">
-
-                <div class="well">
-                    <h4>What you can do on this page.</h4>
-                    <p>TODO: Add some text here describing what can be done</p>
-                </div>
-
-            </div>
-            <div class="col-md-6">
-
-                <div class="list-group">
-                    <a class="list-group-item" href="{% url 'cell_slider_data_classifications_import' %}">
-                        <i class="fa fa-arrow-circle-o-right fa-4x pull-right"></i>
-                        <i class="fa fa-cloud-upload fa-4x fa-fw pull-left text-primary"></i>
-                        <h3 class="list-group-item-heading">Import data</h3>
-                        <p>Import new classification data sent from the CSA.</p>
+        <div class="alert alert-success media">
+            <i class="fa fa-table fa-4x media-object pull-left"></i>
+            <div class="media-body">
+                <h4 class="media-heading">Currently viewing data uploaded on {{ current_data_uploaded }}</h4>
+                <p>
+                    You can upload a new data file or reload any previously uploaded data using the data manager.
+                </p>
+                <p>
+                    <a href="{% url 'cell_slider_data_classifications_import' %}" class="btn btn-success">
+                        Data Manager <i class="fa fa-arrow-circle-o-right"></i>
                     </a>
-{#                    <a class="list-group-item" href="{% url 'cell_slider_data_classifications_list' %}">#}
-{#                        <i class="fa fa-arrow-circle-o-right fa-4x pull-right"></i>#}
-{#                        <i class="fa fa-table fa-4x fa-fw pull-left text-primary"></i>#}
-{#                        <h3 class="list-group-item-heading">List Classifications</h3>#}
-{#                        <p>See a list of all classifications in a table.</p>#}
-{#                    </a>#}
-
-                </div>
-
+                </p>
             </div>
         </div>
+
+        <hr />
+
+        <h2>Analysis</h2>
+        <p class="text-info">Analysis shown here can be configured in the settings file.</p>
+
+        <div id="analysis-container"></div>
 
     </div>
 {% endblock %}

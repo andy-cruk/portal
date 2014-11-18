@@ -63,6 +63,16 @@ DATABASES = {
     }
 }
 
+# Caching
+# https://docs.djangoproject.com/en/1.7/topics/cache/
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache_table',
+    }
+}
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -98,6 +108,10 @@ BOOTSTRAP3 = {
         'default': 'portal.renderers.PortalRenderer',
     },
 }
+
+CELL_SLIDER_ANALYSIS = (
+    ('Total Counts', 'cellsliderdata.analyzers.totalcountsanalyzer', ),
+)
 
 from local_settings import *
 

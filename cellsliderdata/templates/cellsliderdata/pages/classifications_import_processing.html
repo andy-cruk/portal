@@ -1,0 +1,76 @@
+{% extends 'portal/base.html' %}
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" language="javascript">
+        var poll_for_status_url = '{% url 'cell_slider_data_classifications_import_processing_status' csa_zip_file.id %}';
+        var continue_polling_for_status = true;
+
+        function poll_for_status() {
+            $.get(poll_for_status_url, function(data){
+                $('#status-update-container').html(data.template);
+                if (data.status == 'processing')
+                    setTimeout(poll_for_status, 2000);
+            });
+        }
+
+        $(function(){
+            poll_for_status()
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+
+        <ol class="breadcrumb">
+            <li><a href="{% url 'portal_home' %}">Home</a></li>
+            <li><a href="{% url 'cell_slider_data_dashboard' %}">Cell Slider Dashboard</a></li>
+            <li><a href="{% url 'cell_slider_data_classifications_import' %}">Import Data</a></li>
+            <li class="active">Data Processing</li>
+        </ol>
+
+        <div class="page-header">
+            <h1>Cell Slider Data Import - Processing</h1>
+            <p>The portal is currently processing the data you uploaded</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="alert alert-success media">
+                    <i class="fa fa-check-circle-o fa-4x pull-left media-object"></i>
+                    <div class="media-body">
+                        <h4 class="media-heading">Success!</h4>
+                        <p>Your file was uploaded successfully.</p>
+                        <p>This page will auto update to show you the progress of file processing.</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+
+                <div class="well">
+                    <h4>Upload Details</h4>
+
+                    <dl class="dl-horizontal">
+                        <dt>File:</dt>
+                        <dd>{{ csa_zip_file.name }}</dd>
+                        <dt>Uploaded at:</dt>
+                        <dd>{{ csa_zip_file.created }}</dd>
+                        <dt>Uploaded by:</dt>
+                        <dd>{{ user }} ({{ user.email }})</dd>
+                    </dl>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div id="status-update-container">
+            {% include 'cellsliderdata/components/classifications_import_process_progress.html' with progress='1' %}
+        </div>
+    </div>
+
+{% endblock %}
