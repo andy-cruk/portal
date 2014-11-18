@@ -57,7 +57,12 @@
 
         <hr />
 
-        <h2>Analysis</h2>
+        <h2>
+            <a href="{% url 'cell_slider_data_dashboard' %}?clear_cache=true" class="btn btn-primary pull-right">
+                Rerun analysis
+            </a>
+            Analysis
+        </h2>
         <p class="text-info">Analysis shown here can be configured in the settings file.</p>
 
         <div id="analysis-container"></div>

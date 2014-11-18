@@ -3,6 +3,7 @@ import re
 import csv
 import tarfile
 from django.conf import settings
+from django.core.cache import cache
 from django.core.files import File
 from django.db import models
 
@@ -192,3 +193,6 @@ class CSAZipFileProcess(models.Model):
                 "There was an error validating the headers in the Zip File.",
                 ex)
             return
+
+        # Clear the cache of analysis
+        cache.clear()

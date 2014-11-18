@@ -11,7 +11,6 @@ class Analyzer(BaseAnalyzer):
 
     def get_template(self):
         template = None
-        print('here')
         with open(os.path.join(os.path.dirname(__file__), 'template.html'), 'r') as f:
             raw_template = f.read()
         if raw_template:
