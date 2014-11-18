@@ -70,26 +70,21 @@ class CSADataFile(models.Model):
                     continue
                 # if x > 100000:
                 #     break
-                if x % 100 == 0:
+                if x % 1000 == 0:
                     CSADataRow.objects.bulk_create(csa_data_rows)
                     csa_data_rows = []
                     yield total_row, x
-                csa_data_rows.append(CSADataRow(
-                    csa_id=row[0],
-                    user_name=row[1],
-                    image_name=row[2],
-                    split_number=row[3],
-                    image_url=row[4],
-                    has_cancer_count=bool(row[5] == '1'),
-                    has_fiber_count=bool(row[6] == '1'),
-                    has_blood_cell_count=bool(row[7] == '1'),
-                    amount=row[8],
-                    proportion=row[9],
-                    intensity=row[10],
-                    csa_created_at=row[11].replace(' UTC', '+00:00').replace(' ', 'T').strip()))
+                csa_data_row = CSADataRow(
+                    csa_id=row[0], user_name=row[1], image_name=row[2], split_number=row[3],
+                    image_url=row[4], has_cancer_count=bool(row[5] == '1'),
+                    has_fiber_count=bool(row[6] == '1'), has_blood_cell_count=bool(row[7] == '1'),
+                    amount=row[8], proportion=row[9], intensity=row[10],
+                    csa_created_at=row[11].replace(' UTC', '+00:00').replace(' ', 'T').strip())
+                if csa_data_row:
+                    csa_data_rows.append(csa_data_row)
             if csa_data_rows:
                 CSADataRow.objects.bulk_create(csa_data_rows)
-        yield 1, 1
+        yield 1, 0.1
 
 
 class CSADataRow(models.Model):
