@@ -185,7 +185,7 @@ class CSAZipFileProcess(models.Model):
         except Exception as ex:
             self._set_state(
                 CSAZipFileProcess.STATE_ERROR,
-                "There was an error validating the headers in the Zip File.",
+                "There was an error importing data from the Zip File (%s) ." % ex,
                 ex)
             return
 
