@@ -39,7 +39,11 @@
         <div class="alert alert-success media">
             <i class="fa fa-table fa-4x media-object pull-left"></i>
             <div class="media-body">
-                <h4 class="media-heading">Currently viewing data uploaded on {{ current_data_uploaded }}</h4>
+                {% if current_data_uploaded %}
+                    <h4 class="media-heading">Currently viewing data uploaded on {{ current_data_uploaded }}</h4>
+                {% else %}
+                    <h4 class="media-heading">There is no data in the system yet</h4>
+                {% endif %}
                 <p>
                     You can upload a new data file or reload any previously uploaded data using the data manager.
                 </p>

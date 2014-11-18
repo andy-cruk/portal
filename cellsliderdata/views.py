@@ -19,7 +19,7 @@ from cellsliderdata.models import CSAZipFile, CSAZipFileProcess, CSADataFile
 def dashboard(request):
     active_data_file = CSADataFile.objects.all().order_by('-updated').first()
     template_data = {
-        'current_data_uploaded': active_data_file.updated,
+        'current_data_uploaded': active_data_file.updated if active_data_file else None,
         'analyzers': settings.CELL_SLIDER_ANALYSIS,
     }
     return render(request, 'cellsliderdata/pages/dashboard.html', template_data)
