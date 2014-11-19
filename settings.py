@@ -111,6 +111,8 @@ BOOTSTRAP3 = {
 
 CELL_SLIDER_ANALYSIS = (
     ('Total Counts', 'cellsliderdata.analyzers.totalcountsanalyzer', ),
+    ('Cumulative Classifications', 'cellsliderdata.analyzers.cumulativeclassificationsbyday', ),
+    ('Distinct Classifications', 'cellsliderdata.analyzers.distinctclassificationsbyday', ),
 )
 
 from local_settings import *

@@ -2,8 +2,18 @@
 
 {% block js %}
     {{ block.super }}
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript" language="JavaScript">
-        $(function(){
+
+        google.load("visualization", "1", {packages:["corechart"]});
+        google.setOnLoadCallback(function(){
+            $(function(){
+                LoadAnalysis();
+            });
+        });
+
+
+        function LoadAnalysis() {
             {% for name, analyzer in analyzers %}
                 $('#analysis-container').append('' +
                         '<div id="{{ name|slugify }}">' +
@@ -19,7 +29,7 @@
                     $.getScript('{% url "cell_slider_data_render_analysis_javascript" %}?analyzer=' + data.analyzer_name);
                 });
             {% endfor %}
-        });
+        }
     </script>
 {% endblock %}
 
