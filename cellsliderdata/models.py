@@ -68,8 +68,8 @@ class CSADataFile(models.Model):
                 x += 1
                 if x == 0:  # headers
                     continue
-                if x > 100000:
-                    break
+                # if x > 100000:
+                #     break
                 if x % 1000 == 0:
                     cursor = connection.cursor()
                     statement = "INSERT INTO cellsliderdata_csadatarow (csa_id, user_name, image_name, split_number, image_url, has_cancer_count, has_fiber_count, has_blood_cell_count, amount, proportion, intensity, csa_created_at, created, updated) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
