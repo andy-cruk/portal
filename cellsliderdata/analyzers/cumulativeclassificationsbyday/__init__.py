@@ -30,7 +30,7 @@ class Analyzer(BaseAnalyzer):
         cumulative_classifications = 0
         for classification_by_day in classifications_by_day:
             cumulative_classifications += classification_by_day['classifications']
-            google_data.append([classification_by_day['day'], cumulative_classifications])
+            google_data.append(["%s" % classification_by_day['day'], cumulative_classifications])
         return """
             var data = google.visualization.arrayToDataTable(%s);
 
