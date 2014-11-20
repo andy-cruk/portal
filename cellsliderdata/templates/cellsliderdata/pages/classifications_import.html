@@ -84,76 +84,50 @@
 
         <hr/>
 
-        <div class="media">
-            <div class=" media-object pull-left" style="margin-top: 30px;">
-                <h4 class="text-center">Option</h4>
-                <span class="fa-stack fa-5x">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <span class="fa-stack-1x fa-inverse">1</span>
-                </span>
-            </div>
-            <div class="media-body">
-
-                <h2>Upload a new data file sent to us from the CSA</h2>
-                <div class="col-md-6">
-                    <form method="post" enctype="multipart/form-data" id="file-upload-form">
-                        {% csrf_token %}
-                        <fieldset>
-                            <legend>Select the new zip file from CSA</legend>
-                            {% bootstrap_form form %}
-                            {% buttons %}
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-cloud-upload"></i> Upload
-                                </button>
-                            {% endbuttons %}
-                        </fieldset>
-                    </form>
-                </div>
-                <div class="col-md-6">
-                    <div class="well">
-                        <h5>What will happen?</h5>
-                        <p>When you choose to upload a new data file sent to us from the CSA the following will happen:</p>
-                        <ol>
-                            <li>You choose the file by clicking on the browse button on the left</li>
-                            <li>Click the upload button to start the process</li>
-                            <li>The file is uploaded and then you are taken to a screen where you are shown the progress of processing the data in the file</li>
-                            <li>If there are any errors in this process, you are notified and the data remains as it is now</li>
-                            <li>If everything goes well, the data from the file will be imported and all the analysis will be rerun when you next visit the dashboard.</li>
-                        </ol>
-                    </div>
-                </div>
+        <h2>Option 1: Upload a new data file sent to us from the CSA</h2>
+        <div class="col-md-6">
+            <form method="post" enctype="multipart/form-data" id="file-upload-form">
+                {% csrf_token %}
+                <fieldset>
+                    <legend>Select the new zip file from CSA</legend>
+                    {% bootstrap_form form %}
+                    {% buttons %}
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-cloud-upload"></i> Upload
+                        </button>
+                    {% endbuttons %}
+                </fieldset>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <div class="well">
+                <h5>What will happen?</h5>
+                <p>When you choose to upload a new data file sent to us from the CSA the following will happen:</p>
+                <ol>
+                    <li>You choose the file by clicking on the browse button on the left</li>
+                    <li>Click the upload button to start the process</li>
+                    <li>The file is uploaded and then you are taken to a screen where you are shown the progress of processing the data in the file</li>
+                    <li>If there are any errors in this process, you are notified and the data remains as it is now</li>
+                    <li>If everything goes well, the data from the file will be imported and all the analysis will be rerun when you next visit the dashboard.</li>
+                </ol>
             </div>
         </div>
 
         <hr/>
 
-        <div class="media">
-            <div class=" media-object pull-left" style="margin-top: 30px;">
-                <h4 class="text-center">Option</h4>
-                <span class="fa-stack fa-5x">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <span class="fa-stack-1x fa-inverse">2</span>
-                </span>
-            </div>
-            <div class="media-body">
-
-                <h2>Reload data previously uploaded</h2>
-                <div class="col-md-6">
-                    <div class="alert alert-info">
-                        <h4>In developemnt</h4>
-                        <p>This feature is still in development</p>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="well">
-                        <h5>What will happen?</h5>
-                        <p>TODO</p>
-                    </div>
-                </div>
+        <h2>Option 2: Reload data previously uploaded</h2>
+        <div class="col-md-6">
+            <div class="alert alert-info">
+                <h4>In developemnt</h4>
+                <p>This feature is still in development</p>
             </div>
         </div>
-
-
+        <div class="col-md-6">
+            <div class="well">
+                <h5>What will happen?</h5>
+                <p>TODO</p>
+            </div>
+        </div>
 
     </div>
 
