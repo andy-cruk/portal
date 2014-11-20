@@ -39,7 +39,7 @@ class Analyzer(BaseAnalyzer):
               legend: {position: 'none'}
             };
 
-            var chart = new google.visualization.LineChart(document.getElementById('%s'));
+            var chart = new google.visualization.AreaChart(document.getElementById('%s'));
 
             chart.draw(data, options);
             """ % (google_data, self.unique_id)

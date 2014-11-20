@@ -27,7 +27,7 @@ class Analyzer(BaseAnalyzer):
     def get_javascript(self):
         classifications_by_day = CSADataRow.objects.extra(select={'day': 'date(csa_created_at)'}).values('day').annotate(classifications=Count('csa_created_at'))
         google_data = [['Day', 'Classifications']]
-        for classification_by_day in sorted(classifications_by_day, key=lambda x: x['day'], reverse=True):
+        for classification_by_day in classifications_by_day:
             google_data.append(["%s" % classification_by_day['day'], classification_by_day['classifications']])
         return """
             var data = google.visualization.arrayToDataTable(%s);
@@ -37,7 +37,7 @@ class Analyzer(BaseAnalyzer):
               legend: {position: 'none'}
             };
 
-            var chart = new google.visualization.ColumnChart(document.getElementById('%s'));
+            var chart = new google.visualization.AreaChart(document.getElementById('%s'));
 
             chart.draw(data, options);
             """ % (google_data, self.unique_id)

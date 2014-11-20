@@ -20,7 +20,9 @@ class Analyzer(BaseAnalyzer):
                 'total_classifications': all_data_rows.count(),
                 'total_users': all_data_rows.extra(
                     {'distinct_users': 'COUNT(DISTINCT user_name)'}).values(
-                        'distinct_users')[0]['distinct_users']
+                        'distinct_users')[0]['distinct_users'],
+                'earliest_classification': all_data_rows.order_by('csa_created_at').first().csa_created_at,
+                'latest_classification': all_data_rows.order_by('csa_created_at').last().csa_created_at,
             }))
         return template
 
