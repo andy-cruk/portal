@@ -30,14 +30,15 @@ class Analyzer(BaseAnalyzer):
         user_activation_data = {}
         cursor = connection.cursor()
         query = 'SELECT user_name, csa_created_at FROM cellsliderdata_csadatarow GROUP BY user_name ORDER BY csa_created_at '
-        for user_name, csa_created_at in cursor.execute(query):
+        cursor.execute(query)
+        for user_name, csa_created_at in cursor.fetchall():
             year_month = csa_created_at.strftime('%Y-%m')
             if year_month not in user_activation_data:
                 user_activation_data[year_month] = 0
             user_activation_data[year_month] += 1
 
         google_data = [['Month', 'New Users']]
-        for year_month, new_users in user_activation_data.items():
+        for year_month, new_users in sorted(user_activation_data.items(), key=lambda x: x[0]):
             google_data.append([year_month, new_users])
 
         return """
