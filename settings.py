@@ -113,6 +113,7 @@ CELL_SLIDER_ANALYSIS = (
     ('Total Counts', 'cellsliderdata.analyzers.totalcountsanalyzer', ),
     ('Cumulative Classifications', 'cellsliderdata.analyzers.cumulativeclassificationsbyday', ),
     ('Distinct Classifications', 'cellsliderdata.analyzers.distinctclassificationsbyday', ),
+    ('New Users by Month', 'cellsliderdata.analyzers.newuseractivitybymonth', ),
 )
 
 from local_settings import *

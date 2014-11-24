@@ -68,7 +68,7 @@ class CSADataFile(models.Model):
                 x += 1
                 if x == 0:  # headers
                     continue
-                # if x > 100000:
+                # if x == 300000:
                 #     break
                 if x % 1000 == 0:
                     cursor = connection.cursor()
