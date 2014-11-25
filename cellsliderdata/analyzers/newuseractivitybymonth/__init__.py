@@ -1,5 +1,6 @@
 import os
 
+from datetime import datetime
 from django.db import connection
 from django.db.models import Count
 from django.template import Template, Context
@@ -33,6 +34,8 @@ class Analyzer(BaseAnalyzer):
         query = 'SELECT user_name, min(csa_created_at), count(csa_created_at) FROM cellsliderdata_csadatarow GROUP BY user_name ORDER BY csa_created_at'
         cursor.execute(query)
         for user_name, csa_created_at, classifications in cursor.fetchall():
+            if isinstance(csa_created_at, datetime):
+                csa_created_at = csa_created_at.isoformat()
             year_month = "%s-%s" % (csa_created_at.split('-')[0], csa_created_at.split('-')[1])   # csa_created_at.strftime('%Y-%m')
             if year_month not in user_activation_data:
                 user_activation_data[year_month] = {
