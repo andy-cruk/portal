@@ -52,12 +52,6 @@ class CellSliderDataRow(CSADataRow, models.Model):
                 if settings.LIMIT_DATA_IMPORT:
                     if x == settings.LIMIT_DATA_IMPORT:
                         break
-                if x % 1000 == 0:
-                    cursor = connection.cursor()
-                    statement = "INSERT INTO cellsliderdata_cellsliderdatarow (csa_id, user_name, image_name, split_number, image_url, has_cancer_count, has_fiber_count, has_blood_cell_count, amount, proportion, intensity, csa_created_at, created, updated) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-                    cursor.executemany(statement, csa_data_rows)
-                    csa_data_rows = []
-                    yield total_row, x
                 csa_data_rows.append((
                     row[0],
                     row[1],
@@ -73,6 +67,12 @@ class CellSliderDataRow(CSADataRow, models.Model):
                     row[11].replace(' UTC', '+00:00').replace(' ', 'T').strip(),
                     now().isoformat(),
                     now().isoformat()))
+                if x % 1000 == 0 or x == (total_row - 1):
+                    cursor = connection.cursor()
+                    statement = "INSERT INTO cellsliderdata_cellsliderdatarow (csa_id, user_name, image_name, split_number, image_url, has_cancer_count, has_fiber_count, has_blood_cell_count, amount, proportion, intensity, csa_created_at, created, updated) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                    cursor.executemany(statement, csa_data_rows)
+                    csa_data_rows = []
+                    yield total_row, x
         yield 1, 0.1
 
 

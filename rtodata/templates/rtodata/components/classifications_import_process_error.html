@@ -1,0 +1,18 @@
+<h2><i class="fa fa-warning"></i> Error</h2>
+
+<div class="progress">
+    <div class="progress-bar progress-bar-danger" style="width: 100%"></div>
+</div>
+
+<div class="alert alert-danger media">
+    <i class="fa fa-warning fa-4x pull-left media-object"></i>
+    <div class="media-body">
+        <h4 class="media-heading">Something went wrong with this import</h4>
+        <p>There was an error uploading and processing this file.</p>
+        <hr/>
+        <p><b>{{ csa_zip_file_process.error }}</b></p>
+        {% if csa_zip_file_process.exception %}
+            <p>{{ csa_zip_file_process.exception }}</p>
+        {% endif %}
+    </div>
+</div>

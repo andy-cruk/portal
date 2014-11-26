@@ -1,0 +1,127 @@
+{% extends 'portal/base.html' %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" language="JavaScript" src="{% static 'js/jquery.form.js' %}"></script>
+    <script type="text/javascript" language="JavaScript">
+        $(function(){
+            $('#file-upload-form').ajaxForm({
+                error: function(response) {
+                    $('#overlay').remove();
+                    var $form = $('#file-upload-form');
+                    $form.find('.alert-danger').remove();
+                    var error_html = "" +
+                            "<div class='alert alert-danger media'>" +
+                            "   <i class='fa fa-warning fa-4x pull-left media-object'></i>" +
+                            "   <div class='media-body'>" +
+                            "       <h4 class='media-heading'>Something went wrong</h4>" +
+                            response.responseText +
+                            "   </div>" +
+                            "</div>";
+                    $form.find('legend').after(error_html);
+                },
+                success: function(response) {
+                    window.location.assign(response);
+                },
+                beforeSubmit: function() {
+                    var $body = $('body');
+                    var $overlay = $("" +
+                            "<div id='overlay' style='position:absolute; top:0; left:0; width: 100%; height:100%; z-index:5000; background: rgba(0,0,0,0.7)'>" +
+                            "   <div style='margin:40% auto 0; width: 50%;'>" +
+                            "       <h2 style='color:white;'><i class='fa fa-spinner fa-spin'></i> Uploading</h2>" +
+                            "       <div class='progress'>" +
+                            "           <div class='progress-bar' style='width:1%;'></div>" +
+                            "       </div>" +
+                            "   </div>" +
+                            "</div>");
+                    $body.css({'position': 'relative'});
+                    $overlay.prependTo($body);
+                },
+                uploadProgress: function(event, position, total, percentComplete) {
+                    $('.progress-bar').css({'width': '' + percentComplete + '%'});
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+
+        {% block breadcrumbs %}{% endblock %}
+
+        {% block page_header %}{% endblock %}
+
+        <div class="alert alert-warning media">
+            <i class="fa fa-warning fa-4x media-object pull-left"></i>
+            <div class="media-body">
+                <h4 class="media-heading">Caution</h4>
+                <p>Changing the currently active data set can be done is one of two ways:</p>
+                <ol>
+                    <li>Choose to reload any of the previously uploaded datafiles, or</li>
+                    <li>Upload a new datafile sent from the CSA.</li>
+                </ol>
+                <p>
+                    Changing the data can take several minutes to complete and once complete, all the analysis
+                    shown on the dashboard will need to be rerun.
+                </p>
+                <p>
+                    Don't be put off, its expected that we change the data at least as often as the CSA send us
+                    new files, just be prepared that this process can take a while.
+                </p>
+            </div>
+        </div>
+
+        <hr/>
+
+        <h2>Option 1: Upload a new data file sent to us from the CSA</h2>
+        <div class="col-md-6">
+            <form method="post" enctype="multipart/form-data" id="file-upload-form">
+                {% csrf_token %}
+                <fieldset>
+                    <legend>Select the new zip file from CSA</legend>
+                    {% bootstrap_form form %}
+                    {% buttons %}
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-cloud-upload"></i> Upload
+                        </button>
+                    {% endbuttons %}
+                </fieldset>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <div class="well">
+                <h5>What will happen?</h5>
+                <p>When you choose to upload a new data file sent to us from the CSA the following will happen:</p>
+                <ol>
+                    <li>You choose the file by clicking on the browse button on the left</li>
+                    <li>Click the upload button to start the process</li>
+                    <li>The file is uploaded and then you are taken to a screen where you are shown the progress of processing the data in the file</li>
+                    <li>If there are any errors in this process, you are notified and the data remains as it is now</li>
+                    <li>If everything goes well, the data from the file will be imported and all the analysis will be rerun when you next visit the dashboard.</li>
+                </ol>
+            </div>
+        </div>
+
+        <hr/>
+
+        <h2>Option 2: Reload data previously uploaded</h2>
+        <div class="col-md-6">
+            <div class="alert alert-info">
+                <h4>In developemnt</h4>
+                <p>This feature is still in development</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="well">
+                <h5>What will happen?</h5>
+                <p>TODO</p>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% if progress == 100 %}
+    <h2><i class="fa fa-check"></i> Finished!</h2>
+{% else %}
+    <h2><i class="fa fa-spinner fa-spin"></i> Processing</h2>
+{% endif %}
+
+<div class="progress">
+    <div class="progress-bar" style="width: {{ progress }}%"></div>
+</div>
+
+<ul class="list-unstyled">
+    {% for step_done in steps_done %}
+        <li class="text-muted"><i class="fa fa-fw fa-check"></i> {{ step_done }}</li>
+    {% endfor %}
+    {% for step_doing in steps_doing %}
+        <li class="text-primary"><i class="fa fa-fw fa-spin fa-spinner"></i> {{ step_doing }}</li>
+    {% endfor %}
+    {% for step_todo in steps_todo %}
+        <li><i class="fa fa-fw fa-square"></i> {{ step_todo }}</li>
+    {% endfor %}
+</ul>

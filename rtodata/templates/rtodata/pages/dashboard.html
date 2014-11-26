@@ -1,5 +1,38 @@
 {% extends 'portal/base.html' %}
 
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" language="JavaScript">
+
+        google.load("visualization", "1", {packages:["corechart"]});
+        google.setOnLoadCallback(function(){
+            $(function(){
+                LoadAnalysis();
+            });
+        });
+
+
+        function LoadAnalysis() {
+            {% for name, analyzer in analyzers %}
+                $('#analysis-container').append('' +
+                        '<div id="{{ name|slugify }}">' +
+                        '   <div class="col-md-6">' +
+                        '       <h2 style="margin:50px 20px;">' +
+                        '           <i class="fa fa-spinner fa-spin"></i> ' +
+                        '           Loading: {{ name }} ' +
+                        '       </h2>' +
+                        '   </div>' +
+                        '</div>');
+                $.get('{% url "rto_data_render_analysis_template" %}?analyzer={{ analyzer }}&name={{ name|slugify }}', function(data){
+                    $('#' + data.name).html(data.template);
+                    $.getScript('{% url "rto_data_render_analysis_javascript" %}?analyzer=' + data.analyzer_name);
+                });
+            {% endfor %}
+        }
+    </script>
+{% endblock %}
+
 {% block body %}
     <div class="container">
 
@@ -12,6 +45,32 @@
             <h1>RTO Dashboard</h1>
             <p>Import, view and query RTO classification data sent from CSA</p>
         </div>
+
+        <div class="alert alert-success media">
+            <i class="fa fa-table fa-4x media-object pull-left"></i>
+            <div class="media-body">
+                <h4 class="media-heading">Manage CSA Data</h4>
+                <p>
+                    You can upload a new data file or reload any previously uploaded data using the data manager.
+                </p>
+                <p>
+                    <a href="{% url 'rto_data_classifications_import' %}" class="btn btn-success">
+                        Data Manager <i class="fa fa-arrow-circle-o-right"></i>
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <h2>
+            <a href="{% url 'rto_data_dashboard' %}?clear_cache=true" class="btn btn-primary pull-right">
+                Rerun analysis
+            </a>
+            Analysis
+        </h2>
+        <p class="text-info">Analysis shown here can be configured in the settings file.</p>
+
+        <div id="analysis-container"></div>
+
 
     </div>
 {% endblock %}

@@ -84,7 +84,7 @@ class CSAZipFileProcess(models.Model):
         if error:
             self.error = error
         if exception:
-            self.exception = exception
+            self.exception = "%s (%s)" % (exception, type(exception))
         if import_progress:
             self.data_import_progress = import_progress
         self.save()

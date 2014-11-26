@@ -19,7 +19,7 @@ def classifications_import_processing_status(request, file_id, processing_templa
     csa_zip_file = get_object_or_404(CSAZipFile, id=file_id)
     csa_zip_file_process = get_object_or_404(CSAZipFileProcess, csa_zip_file=csa_zip_file)
     state, template_data = csa_zip_file_process.get_csa_zip_file_process()
-    if state == 'processing':
+    if state in ['processing', 'finished']:
         template = render_to_string(
             processing_template,
             template_data)
@@ -32,11 +32,11 @@ def classifications_import_processing_status(request, file_id, processing_templa
 
 @login_required
 @async
-def classifications_import_processing(request, file_id, template):
+def classifications_import_processing(request, file_id, template, data_row_class):
     csa_zip_file = get_object_or_404(CSAZipFile, id=file_id)
     template_data = {'csa_zip_file': csa_zip_file}
     yield render(request, template, template_data)
-    CSAZipFileProcess.RunProcessForZipFile(csa_zip_file, CellSliderDataRow)
+    CSAZipFileProcess.RunProcessForZipFile(csa_zip_file, data_row_class)
 
 
 @login_required

@@ -118,6 +118,10 @@ CELL_SLIDER_ANALYSIS = (
     ('New Users by Month', 'cellsliderdata.analyzers.newuseractivitybymonth', ),
 )
 
+RTO_ANALYSIS = (
+    ('Total Counts', 'rtodata.analyzers.totalcountsanalyzer'),
+)
+
 LIMIT_DATA_IMPORT = False
 
 from local_settings import *

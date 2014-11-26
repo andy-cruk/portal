@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, url
 from cellsliderdata.forms import CSAZipFileForm
+from cellsliderdata.models import CellSliderDataRow
 from cellsliderdata.views import dashboard
 from domain.views import classifications_import_processing_status, classifications_import_processing, \
     classifications_import, render_analysis_javascript, render_analysis_template
@@ -18,7 +19,10 @@ urlpatterns = patterns(
 
     url(r'^import/processing/(?P<file_id>\d+)$',
         classifications_import_processing,
-        {'template': 'cellsliderdata/pages/classifications_import_processing.html'},
+        {
+            'template': 'cellsliderdata/pages/classifications_import_processing.html',
+            'data_row_class': CellSliderDataRow
+        },
         name='cell_slider_data_classifications_import_processing'),
 
     url(r'^import$',
