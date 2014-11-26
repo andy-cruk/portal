@@ -29,39 +29,45 @@ class Analyzer(BaseAnalyzer):
 
     def get_javascript(self):
         user_activation_data = {}
+
         cursor = connection.cursor()
-        # query = 'SELECT user_name, csa_created_at FROM cellsliderdata_csadatarow GROUP BY user_name ORDER BY csa_created_at '
         query = 'SELECT user_name, min(csa_created_at), count(csa_created_at) FROM cellsliderdata_csadatarow GROUP BY user_name ORDER BY csa_created_at'
         cursor.execute(query)
+
         for user_name, csa_created_at, classifications in cursor.fetchall():
+
+
             if isinstance(csa_created_at, datetime):
                 csa_created_at = csa_created_at.isoformat()
             year_month = "%s-%s" % (csa_created_at.split('-')[0], csa_created_at.split('-')[1])   # csa_created_at.strftime('%Y-%m')
+
+
             if year_month not in user_activation_data:
                 user_activation_data[year_month] = {
                     'registered': 0,
-                    'over_five_classifications': 0,
+                    'any_classifications': 0,
                     'over_ten_classifications': 0,
                     'over_fifty_classifications': 0
                 }
             user_activation_data[year_month]['registered'] += 1
-            if classifications > 5:
-                user_activation_data[year_month]['over_five_classifications'] += 1
+            if classifications:
+                user_activation_data[year_month]['any_classifications'] += 1
             if classifications > 10:
                 user_activation_data[year_month]['over_ten_classifications'] += 1
             if classifications > 50:
                 user_activation_data[year_month]['over_fifty_classifications'] += 1
 
-        max_registered = max(d['registered'] for d in user_activation_data.values())
-        google_data = []  # [['Month', 'Registered', '5+ Classifications', '10+ Classifications', '50+ Classifications']]
+        # max_registered = max(d['registered'] for d in user_activation_data.values())
+        google_data_for_behaviour_chart = []  # [['Month', 'Registered', '5+ Classifications', '10+ Classifications', '50+ Classifications']]
+        google_data_for_registrations_chart = []  # [['Month', 'Registered', '5+ Classifications', '10+ Classifications', '50+ Classifications']]
+
         for year_month, data in sorted(user_activation_data.items(), key=lambda x: x[0]):
             registered = data['registered']
-            over_five_classifications = data['over_five_classifications']
+            any_classifications = data['any_classifications']
             over_ten_classifications = data['over_ten_classifications']
             over_fifty_classifications = data['over_fifty_classifications']
-            total_classification_bands = over_five_classifications + over_ten_classifications + over_fifty_classifications
-            remaining_space = max_registered * 2 - registered
-            google_data.append([
+            total_classification_bands = any_classifications + over_ten_classifications + over_fifty_classifications
+            google_data_for_behaviour_chart.append([
                 year_month,
                 '<div style="padding: 10px; width: 200px;">'
                 '   <p><b>%s</b></p>'
@@ -72,11 +78,11 @@ class Analyzer(BaseAnalyzer):
                 '               <td class="text-right">%10.0f</td>'
                 '           </tr>'
                 '           <tr>'
-                '               <td>5+ Class.</td>'
+                '               <td>0-9 Class.</td>'
                 '               <td class="text-right">%10.2f%%</td>'
                 '           </tr>'
                 '           <tr>'
-                '               <td>10+ Class.</td>'
+                '               <td>10-49 Class.</td>'
                 '               <td class="text-right">%10.2f%%</td>'
                 '           </tr>'
                 '           <tr>'
@@ -88,28 +94,29 @@ class Analyzer(BaseAnalyzer):
                 '</div>' % (
                     year_month,
                     registered,
-                    (float(over_five_classifications) / registered) * 100,
-                    (float(over_ten_classifications) / registered) * 100,
-                    (float(over_fifty_classifications) / registered) * 100),
-                registered,
-                float(over_five_classifications) / total_classification_bands * remaining_space,
-                float(over_ten_classifications) / total_classification_bands * remaining_space,
-                float(over_fifty_classifications) / total_classification_bands * remaining_space])
+                    (float(any_classifications) / total_classification_bands) * 100,
+                    (float(over_ten_classifications) / total_classification_bands) * 100,
+                    (float(over_fifty_classifications) / total_classification_bands) * 100),
+                float(any_classifications) / total_classification_bands,
+                float(over_ten_classifications) / total_classification_bands,
+                float(over_fifty_classifications) / total_classification_bands])
+            google_data_for_registrations_chart.append([
+                year_month,
+                registered])
 
         return """
 
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Month');
-            data.addColumn({type: 'string', role: 'tooltip', p: {html: true}});
-            data.addColumn('number', 'Registered');
-            data.addColumn('number', '5+ Classifications');
-            data.addColumn('number', '10+ Classifications');
-            data.addColumn('number', '50+ Classifications');
-            data.addRows(
+            var data1 = new google.visualization.DataTable();
+            data1.addColumn('string', 'Month');
+            data1.addColumn({type: 'string', role: 'tooltip', p: {html: true}});
+            data1.addColumn('number', '0-9 Classifications');
+            data1.addColumn('number', '10-49 Classifications');
+            data1.addColumn('number', '50+ Classifications');
+            data1.addRows(
                 %s
             );
 
-            var options = {
+            var options1 = {
                 title: '',
                 legend: {position: 'bottom', maxLines: 2 },
                 isStacked: true,
@@ -118,7 +125,28 @@ class Analyzer(BaseAnalyzer):
                 tooltip: { isHtml: true }
             };
 
-            var chart = new google.visualization.ColumnChart(document.getElementById('%s'));
+            var chart1 = new google.visualization.ColumnChart(document.getElementById('%s'));
 
-            chart.draw(data, options);
-            """ % (google_data, self.unique_id)
+            chart1.draw(data1, options1);
+
+            var data2 = new google.visualization.DataTable();
+            data2.addColumn('string', 'Month');
+            data2.addColumn('number', 'New Users');
+            data2.addRows(
+                %s
+            );
+
+            var options2 = {
+                title: '',
+                legend: {position: 'none' }
+            };
+
+            var chart2 = new google.visualization.AreaChart(document.getElementById('%s'));
+
+            chart2.draw(data2, options2);
+
+            """ % (
+            google_data_for_behaviour_chart,
+            self.unique_id + "_behaviour",
+            google_data_for_registrations_chart,
+            self.unique_id + "_registrations")

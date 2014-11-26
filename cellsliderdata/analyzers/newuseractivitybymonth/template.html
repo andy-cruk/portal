@@ -5,12 +5,14 @@
         </header>
         <body class="panel-body">
             <p class="text-muted" style="padding: 10px 10px 0 10px">
-                Chart showing cohort analysis of users: Each bar shows the actual number of users who
-                first started classifying within that month, along with the percentage of those users
-                who (during their lifetime engagement) went on to hit the classification targets shown
-                in the legend.
+                Chart showing cohort analysis of users: The first chart shows users who registered in any given
+                month. The second chart shows what percentage of these users went on to make X number of
+                classifications during their lifetime engagement with the product.
             </p>
-            <div style="height: 400px;" id="{{ chart_id }}">
+            <div style="height: 200px;" id="{{ chart_id }}_registrations">
+                <h3 style="margin: 30px"><i class="fa fa-spin fa-spinner"></i> Loading Chart</h3>
+            </div>
+            <div style="height: 300px;" id="{{ chart_id }}_behaviour">
                 <h3 style="margin: 30px"><i class="fa fa-spin fa-spinner"></i> Loading Chart</h3>
             </div>
         </body>
