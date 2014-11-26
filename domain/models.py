@@ -52,11 +52,9 @@ class CSADataFile(models.Model):
 
 class CSADataRow(object):
 
-    @abc.abstractclassmethod
     def ValidateHeaders(cls, data_file):
         raise NotImplementedError('Must be implemented on instance class')
 
-    @abc.abstractclassmethod
     def ImportFromFile(cls, data_file):
         raise NotImplementedError('Must be implemented on instance class')
 
