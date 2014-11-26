@@ -3,13 +3,20 @@
 {% block body %}
 
     <div class="container">
+
         <div class="list-group">
             <a class="list-group-item" href="{% url 'cell_slider_data_dashboard' %}">
                 <i class="fa fa-arrow-circle-o-right fa-4x pull-right"></i>
                 <h2 class="list-group-item-heading">Cell Slider Classification Data</h2>
                 <p>Import, view and query classification data sent from CSA</p>
             </a>
+            <a class="list-group-item" href="{% url 'rto_data_dashboard' %}">
+                <i class="fa fa-arrow-circle-o-right fa-4x pull-right"></i>
+                <h2 class="list-group-item-heading">Reverse The Odds Classification Data</h2>
+                <p>Import, view and query classification data sent from CSA</p>
+            </a>
         </div>
+
     </div>
 
 {% endblock %}

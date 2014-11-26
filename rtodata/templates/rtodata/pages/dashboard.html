@@ -1,0 +1,17 @@
+{% extends 'portal/base.html' %}
+
+{% block body %}
+    <div class="container">
+
+        <ol class="breadcrumb">
+            <li><a href="{% url 'portal_home' %}">Home</a></li>
+            <li class="active">RTO Dashboard</li>
+        </ol>
+
+        <div class="page-header">
+            <h1>RTO Dashboard</h1>
+            <p>Import, view and query RTO classification data sent from CSA</p>
+        </div>
+
+    </div>
+{% endblock %}

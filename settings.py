@@ -34,8 +34,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3',
+    'domain',
     'portal',
     'cellsliderdata',
+    'rtodata',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -115,6 +117,8 @@ CELL_SLIDER_ANALYSIS = (
     ('Distinct Classifications', 'cellsliderdata.analyzers.distinctclassificationsbyday', ),
     ('New Users by Month', 'cellsliderdata.analyzers.newuseractivitybymonth', ),
 )
+
+LIMIT_DATA_IMPORT = False
 
 from local_settings import *
 

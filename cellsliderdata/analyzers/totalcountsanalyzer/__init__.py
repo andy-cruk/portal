@@ -1,7 +1,7 @@
 import os
 from django.template import Template, Context
-from cellsliderdata.analyzers import BaseAnalyzer
-from cellsliderdata.models import CSADataRow
+from cellsliderdata.models import CellSliderDataRow
+from domain.analyzers import BaseAnalyzer
 
 
 class Analyzer(BaseAnalyzer):
@@ -15,7 +15,7 @@ class Analyzer(BaseAnalyzer):
             raw_template = f.read()
         if raw_template:
             template = Template(raw_template)
-            all_data_rows = CSADataRow.objects.all()
+            all_data_rows = CellSliderDataRow.objects.all()
             template = template.render(Context({
                 'total_classifications': all_data_rows.count(),
                 'total_users': all_data_rows.extra(

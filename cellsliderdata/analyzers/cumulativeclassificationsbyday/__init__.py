@@ -3,8 +3,8 @@ import uuid
 from django.db.models import Count
 from django.template import Template, Context
 from django.utils.text import slugify
-from cellsliderdata.analyzers import BaseAnalyzer
-from cellsliderdata.models import CSADataRow
+from cellsliderdata.models import CellSliderDataRow
+from domain.analyzers import BaseAnalyzer
 
 
 class Analyzer(BaseAnalyzer):
@@ -25,7 +25,7 @@ class Analyzer(BaseAnalyzer):
         return template
 
     def get_javascript(self):
-        classifications_by_day = CSADataRow.objects.extra(select={'day': 'date(csa_created_at)'}).values('day').annotate(classifications=Count('csa_created_at'))
+        classifications_by_day = CellSliderDataRow.objects.extra(select={'day': 'date(csa_created_at)'}).values('day').annotate(classifications=Count('csa_created_at'))
         google_data = [['Day', 'Classifications']]
         cumulative_classifications = 0
         for classification_by_day in classifications_by_day:

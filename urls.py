@@ -9,6 +9,7 @@ urlpatterns = patterns(
 
     # Include app specific url includes here
     url(r'^cellsliderdata/', include('cellsliderdata.urls')),
+    url(r'^rtodata/', include('rtodata.urls')),
 
     # Urls for the main portal functions matches anything not caught by any other handler
     url(r'', include("portal.urls"))

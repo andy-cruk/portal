@@ -6,8 +6,8 @@ from django.db.models import Count
 from django.template import Template, Context
 from django.utils.text import slugify
 
-from cellsliderdata.analyzers import BaseAnalyzer
-from cellsliderdata.models import CSADataRow
+from cellsliderdata.models import CellSliderDataRow
+from domain.analyzers import BaseAnalyzer
 
 
 class Analyzer(BaseAnalyzer):
@@ -31,7 +31,7 @@ class Analyzer(BaseAnalyzer):
         user_activation_data = {}
 
         cursor = connection.cursor()
-        query = 'SELECT user_name, min(csa_created_at), count(csa_created_at) FROM cellsliderdata_csadatarow GROUP BY user_name ORDER BY csa_created_at'
+        query = 'SELECT user_name, min(csa_created_at), count(csa_created_at) FROM cellsliderdata_cellsliderdatarow GROUP BY user_name ORDER BY csa_created_at'
         cursor.execute(query)
 
         for user_name, csa_created_at, classifications in cursor.fetchall():
